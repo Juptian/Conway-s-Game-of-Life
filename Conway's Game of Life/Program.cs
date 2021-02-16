@@ -72,24 +72,22 @@ namespace Conway_s_Game_of_Life
              * Dead cell with exactly 3 live neighbours becomes alive.
              */
                 
-            for (int i = 0; i < 100; i++)
+            while(!IsEmpty(Board))
             {
                 PlayGame(ref Board);
                 DisplayBoard(Board);
                 Thread.Sleep(1000);
-
-                if (IsEmpty(Board))
-                {
-                    Console.WriteLine("That's it, a 0 player game, I hope you had fun watching this do everything on it's own.\nBy the way, this is pure RNG, no player involvement! \nMost of the time it'll end up ending quickly :) \nWould you like to go again? Yes to continue, No to stop");
-                    string goAgain = Console.ReadLine();
-                    if (goAgain == "yes" || goAgain == "Yes")
-                    {
-                        InitBoard(ref Board);
-                        GameLoop(ref Board);
-                    } else { return; }
-                } 
             }
-            
+
+            Console.WriteLine("That's it, a 0 player game, I hope you had fun watching this do everything on it's own.\nBy the way, this is pure RNG, no player involvement! \nMost of the time it'll end up ending quickly :) \nWould you like to go again? Yes to continue, No to stop");
+            string goAgain = Console.ReadLine();
+            if (goAgain == "yes" || goAgain == "Yes")
+            {
+                InitBoard(ref Board);
+                GameLoop(ref Board);
+            }
+            else { return; }
+
         }
 
         #region rules
