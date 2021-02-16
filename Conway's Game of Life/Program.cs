@@ -203,9 +203,9 @@ namespace Conway_s_Game_of_Life
             int ZeroCounter = 0;
             foreach(string s in array)
             {
-                if(s == "0") { ZeroCounter++; }
+                if(s == "1") { return false; }
             }
-            return ZeroCounter == array.Length;
+            return true;
         }
     }
 }
