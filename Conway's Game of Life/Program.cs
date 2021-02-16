@@ -6,7 +6,7 @@ namespace Conway_s_Game_of_Life
 {
     class Program
     {
-        static int Size = 25;
+        static readonly int Size = 25;
         static string[,] table = new string[Size, Size];
         static void Main(string[] args)
         {
@@ -197,6 +197,7 @@ namespace Conway_s_Game_of_Life
             }
             Console.WriteLine("\n\n");
         }
+        //Making sure the array isn't empty
         static bool IsEmpty(string[,] array)
         {
             int ZeroCounter = 0;
