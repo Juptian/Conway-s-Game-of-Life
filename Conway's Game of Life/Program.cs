@@ -71,7 +71,6 @@ namespace Conway_s_Game_of_Life
              * Live cell with > 3 neighbours die
              * Dead cell with exactly 3 live neighbours becomes alive.
              */
-                
             while(!IsEmpty(Board))
             {
                 PlayGame(ref Board);
@@ -121,42 +120,63 @@ namespace Conway_s_Game_of_Life
             int result = 0;
             if (X > 0 && X < Size - 1 && Y < Size - 1 && Y > 0)
             {
-                if (Board[X - 1, Y] == "1") { result++; }
-                if (Board[X + 1, Y] == "1") { result++; }
-                if (Board[X, Y - 1] == "1") { result++; }
-                if (Board[X, Y + 1] == "1") { result++; }
-                if (Board[X + 1, Y - 1] == "1") { result++; }
-                if (Board[X + 1, Y + 1] == "1") { result++; }
-                if (Board[X - 1, Y - 1] == "1") { result++; }
-                if (Board[X - 1, Y + 1] == "1") { result++; }
+                for (int offsetX = -1; offsetX <= 1; offsetX++)
+                {
+                    for (int offsetY = -1; offsetY <= 1; offsetY++)
+                    {
+                        if (offsetX == 0 && offsetY == 0) continue;
+                        if (Board[X + offsetX, Y + offsetY] == "1") 
+                            result++;
+                    }
+                }
             }
             else if (X == 0 && Y < Size - 1 && Y > 0)
             {
-                if (Board[X + 1, Y] == "1") { result++; }
-                if (Board[X, Y - 1] == "1") { result++; }
-                if (Board[X, Y + 1] == "1") { result++; }
-                if (Board[X + 1, Y - 1] == "1") { result++; }
-                if (Board[X + 1, Y + 1] == "1") { result++; }
+                for (int offsetX = 0; offsetX <= 1; offsetX++)
+                {
+                    for (int offsetY = -1; offsetY <= 1; offsetY++)
+                    {
+                        if (offsetX == 0 && offsetY == 0) continue;
+                        if (Board[X + offsetX, Y + offsetY] == "1") 
+                            result++;
+                    }
+                }
             }
             else if (X == Size - 1 && Y < Size - 1 && Y > 0)
             {
-                if (Board[X - 1, Y] == "1") { result++; }
-                if (Board[X, Y - 1] == "1") { result++; }
-                if (Board[X, Y + 1] == "1") { result++; }
+                for (int offsetX = -1; offsetX <= 0; offsetX++)
+                {
+                    for (int offsetY = -1; offsetY <= 1; offsetY++)
+                    {
+                        if (offsetX == 0 && offsetY == 0) continue;
+                        if (Board[X + offsetX, Y + offsetY] == "1") 
+                            result++;
+                    }
+                }
             }
             else if (Y == Size - 1 && X < Size - 1 && X > 0)
             {
-                if (Board[X - 1, Y] == "1") { result++; }
-                if (Board[X + 1, Y] == "1") { result++; }
-                if (Board[X, Y - 1] == "1") { result++; }
+                for (int offsetX = -1; offsetX <= 1; offsetX++)
+                {
+                    for (int offsetY = -1; offsetY <= 0; offsetY++)
+                    {
+                        if (offsetX == 0 && offsetY == 0) continue;
+                        if (Board[X + offsetX, Y + offsetY] == "1") 
+                            result++;
+                    }
+                }
             }
             else if(Y == 0 && X < Size - 1 && X > 0)
             {
-                if (Board[X - 1, Y] == "1") { result++; }
-                if (Board[X + 1, Y] == "1") { result++; }
-                if (Board[X, Y + 1] == "1") { result++; }
-                if (Board[X + 1, Y + 1] == "1") { result++; }
-                if (Board[X - 1, Y] == "1") { result++; }
+                for (int offsetX = -1; offsetX <= 1; offsetX++)
+                {
+                    for (int offsetY = 0; offsetY <= 1; offsetY++)
+                    {
+                        if (offsetX == 0 && offsetY == 0) continue; 
+                        if (Board[X + offsetX, Y + offsetY] == "1") 
+                            result++;
+                    }
+                }
             }
             return result;
         }
