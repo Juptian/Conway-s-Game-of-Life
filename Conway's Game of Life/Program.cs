@@ -23,8 +23,9 @@ namespace Conway_s_Game_of_Life
 
             Console.WriteLine("Welcome to a 0 player game, the beginning is randomized, so have fun!\n");
             //Setting up the board
-            InitBoard(ref table);
             Thread.Sleep(2500);
+            InitBoard(ref table);
+            Thread.Sleep(1000);
             GameLoop(ref table);
             
         }
