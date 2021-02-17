@@ -187,7 +187,7 @@ namespace Conway_s_Game_of_Life
         static void DisplayBoard(string[,] Board)
         {
             Console.Clear();
-            Console.WriteLine("Generation{0}\n", Generation);
+            Console.WriteLine("Generation: {0}\n", Generation);
             for (int i = 0; i < Size; i++)
             {
                 for (int z = 0; z < Size; z++)
