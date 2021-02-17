@@ -200,7 +200,6 @@ namespace Conway_s_Game_of_Life
         //Making sure the array isn't empty
         static bool IsEmpty(string[,] array)
         {
-            int ZeroCounter = 0;
             foreach(string s in array)
             {
                 if(s == "1") { return false; }
