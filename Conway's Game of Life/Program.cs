@@ -8,6 +8,7 @@ namespace Conway_s_Game_of_Life
     {
         static readonly int Size = 25;
         static string[,] table = new string[Size, Size];
+        static int Generation { get; set; }
         static void Main(string[] args)
         {
             /*
@@ -31,6 +32,7 @@ namespace Conway_s_Game_of_Life
         }
         static void InitBoard(ref string[,] Board)
         {
+            Generation = 0;
             for (int i = 0; i < Size; i++)
             {
                 for (int z = 0; z < Size; z++)
@@ -185,7 +187,7 @@ namespace Conway_s_Game_of_Life
         static void DisplayBoard(string[,] Board)
         {
             Console.Clear();
-            Console.WriteLine("Newest generation:\n");
+            Console.WriteLine("Generation{0}\n", Generation);
             for (int i = 0; i < Size; i++)
             {
                 for (int z = 0; z < Size; z++)
