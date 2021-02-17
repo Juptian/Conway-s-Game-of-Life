@@ -198,6 +198,7 @@ namespace Conway_s_Game_of_Life
                         Console.Write($" {Board[i, z]} ");
                 }
             }
+            Generation++;
         }
         //Making sure the array isn't empty
         static bool IsEmpty(string[,] array)
