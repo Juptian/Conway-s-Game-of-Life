@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Threading;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Conway_s_Game_of_Life
 {
-    class Program
+    static class Program
     {
         static readonly int Size = 25;
         static string[,] table = new string[Size, Size];
@@ -23,6 +24,7 @@ namespace Conway_s_Game_of_Life
              */
 
             Console.WriteLine("Welcome to a 0 player game, the beginning is randomized, so have fun!\n");
+
             //Setting up the board
             Thread.Sleep(2500);
             InitBoard(ref table);
@@ -48,7 +50,7 @@ namespace Conway_s_Game_of_Life
                 int y = rand.Next(0, 24);
                 Board[x, y] = "1";
             }
-            DisplayBoard(Board);
+            Board.DisplayBoard();
         }
 
         static void PlayGame(ref string[,] Board)
@@ -74,14 +76,15 @@ namespace Conway_s_Game_of_Life
              * Live cell with > 3 neighbours die
              * Dead cell with exactly 3 live neighbours becomes alive.
              */
-            while(!IsEmpty(Board))
+            while(!Board.IsEmpty())
             {
                 PlayGame(ref Board);
-                DisplayBoard(Board);
+                Board.DisplayBoard();
                 Thread.Sleep(1000);
             }
 
-            Console.WriteLine("That's it, a 0 player game, I hope you had fun watching this do everything on it's own.\nBy the way, this is pure RNG, no player involvement! \nMost of the time it'll end up ending quickly :) \nWould you like to go again? Yes to continue, No to stop");
+            Console.WriteLine("That's it, a 0 player game, I hope you had fun watching this do everything on it's own.\nBy the way, this is pure RNG, no player involvement!");
+            Console.WriteLine("Most of the time it'll end up ending quickly :) \nWould you like to go again? Yes to continue, No to stop");
             string goAgain = Console.ReadLine();
             if (goAgain == "yes" || goAgain == "Yes")
             {
@@ -92,7 +95,6 @@ namespace Conway_s_Game_of_Life
 
         }
 
-        #region rules
         //Rules
         static void OverPopulation(string[,] Board, int X, int Y)
         {
@@ -117,7 +119,8 @@ namespace Conway_s_Game_of_Life
                 Board[X, Y] = "1";
             }
         }
-        #endregion
+
+        //Getting neighbours
         static int GetLiveNeighbours(string[,] Board, int X, int Y)
         {
             int result = 0;
@@ -183,8 +186,9 @@ namespace Conway_s_Game_of_Life
             }
             return result;
         }
+
         //Showing the board
-        static void DisplayBoard(string[,] Board)
+        static void DisplayBoard(this string[,] Board)
         {
             Console.Clear();
             Console.WriteLine("Generation: {0}\n", Generation);
@@ -200,14 +204,8 @@ namespace Conway_s_Game_of_Life
             }
             Generation++;
         }
-        //Making sure the array isn't empty
-        static bool IsEmpty(string[,] array)
-        {
-            foreach(string s in array)
-            {
-                if(s == "1") { return false; }
-            }
-            return true;
-        }
+
+        //Making sure the array isn't empty (full of 0's)
+        static bool IsEmpty(this string[,] array) => array.Cast<string>().All(s => s != "1");
     }
 }
