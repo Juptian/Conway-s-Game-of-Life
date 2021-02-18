@@ -29,3 +29,10 @@ So the big changes are:
 - Code is a lot cleaner, and just overall easier to read
 - Code is more performant
 - It's easier to follow the algorithm running
+
+
+# Contributions
+If you wish to make a contribution, I am not currently looking for them, but you can make a pull request, and I'll check it out
+
+##Licence
+MIT liscence
