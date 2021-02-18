@@ -2,15 +2,16 @@
 using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Conway_s_Game_of_Life
 {
     static class Program
     {
-        static readonly int Size = 25;
-        static string[,] table = new string[Size, Size];
-        static int Generation { get; set; }
-        static void Main(string[] args)
+        private const int Size = 25;
+        private static readonly char[,] Table = new char[Size, Size];
+        private static int Generation { get; set; }
+        private async static Task Main(string[] args)
         {
             /*
              * PLAN:
@@ -25,21 +26,21 @@ namespace Conway_s_Game_of_Life
 
             Console.WriteLine("Welcome to a 0 player game, the beginning is randomized, so have fun!\n");
 
-            //Setting up the board
-            Thread.Sleep(2500);
-            InitBoard(ref table);
-            Thread.Sleep(1000);
-            GameLoop(ref table);
+            //Setting up the Table
+            await Task.Delay(2500);
+            InitBoard();
+            await Task.Delay(1000);
+            await GameLoop();
             
         }
-        static void InitBoard(ref string[,] Board)
+        static void InitBoard()
         {
             Generation = 0;
             for (int i = 0; i < Size; i++)
             {
                 for (int z = 0; z < Size; z++)
                 {
-                    Board[i, z] = "0";
+                    Table[i, z] = ' ';
                 }
             }
 
@@ -48,26 +49,26 @@ namespace Conway_s_Game_of_Life
             {
                 int x = rand.Next(0, 24);
                 int y = rand.Next(0, 24);
-                Board[x, y] = "1";
+                Table[x, y] = '█';
             }
-            Board.DisplayBoard();
+            Table.DisplayTable();
         }
 
-        static void PlayGame(ref string[,] Board)
+        private static void PlayGame()
         {
             for (int i = 0; i < Size; i++)
             {
                 for (int z = 0; z < Size; z++)
                 {
-                    OverPopulation(Board, i, z);
-                    UnderPopulation(Board, i, z);
-                    Reproduction(Board, i, z);
+                    OverPopulation(i, z);
+                    UnderPopulation(i, z);
+                    Reproduction(i, z);
                 }
             }
             
         }
 
-        static void GameLoop(ref string[,] Board)
+        private static async Task GameLoop()
         {
             /*
              * RULES
@@ -76,52 +77,55 @@ namespace Conway_s_Game_of_Life
              * Live cell with > 3 neighbours die
              * Dead cell with exactly 3 live neighbours becomes alive.
              */
-            while(!Board.IsEmpty())
+            while(true)
             {
-                PlayGame(ref Board);
-                Board.DisplayBoard();
-                Thread.Sleep(1000);
+                while(!Table.IsEmpty())
+                {
+                    PlayGame();
+                    Table.DisplayTable();
+                    await Task.Delay(1000);
+                }
+                string goAgain = Console.ReadLine();
+                Console.WriteLine("That's it, a 0 player game, I hope you had fun watching this do everything on it's own."); 
+                Console.WriteLine("By the way, this is pure RNG, no player involvement!");
+                Console.WriteLine("Most of the time it'll end up ending quickly :)");
+                Console.WriteLine("Would you like to go again? Yes to continue, No to stop");
+                if (goAgain.Equals("yes", StringComparison.OrdinalIgnoreCase))
+                {
+                    InitBoard();
+                }
+                else { break; }
             }
-
-            Console.WriteLine("That's it, a 0 player game, I hope you had fun watching this do everything on it's own.\nBy the way, this is pure RNG, no player involvement!");
-            Console.WriteLine("Most of the time it'll end up ending quickly :) \nWould you like to go again? Yes to continue, No to stop");
-            string goAgain = Console.ReadLine();
-            if (goAgain == "yes" || goAgain == "Yes")
-            {
-                InitBoard(ref Board);
-                GameLoop(ref Board);
-            }
-            else { return; }
 
         }
 
         //Rules
-        static void OverPopulation(string[,] Board, int X, int Y)
+        private static void OverPopulation(int X, int Y)
         {
-            if (Board[X, Y] == "1" && GetLiveNeighbours(Board, X, Y) > 3)
+            if (Table[X, Y] == '█' && GetLiveNeighbours(X, Y) > 3)
             {
-                Board[X, Y] = "0";
+                Table[X, Y] = ' ';
             }
         }
 
-        static void UnderPopulation(string[,] Board, int X, int Y)
+        private static void UnderPopulation(int X, int Y)
         {
-            if (Board[X, Y] == "1" && GetLiveNeighbours(Board, X, Y) < 3)
+            if (Table[X, Y] == '█' && GetLiveNeighbours(X, Y) < 3)
             {
-                Board[X, Y] = "0";
+                Table[X, Y] = ' ';
             }
         }
 
-        static void Reproduction(string[,] Board, int X, int Y)
+        private static void Reproduction(int X, int Y)
         {
-            if (Board[X, Y] == "0" && GetLiveNeighbours(Board, X, Y) == 3)
+            if (Table[X, Y] == ' ' && GetLiveNeighbours(X, Y) == 3)
             {
-                Board[X, Y] = "1";
+                Table[X, Y] = '█';
             }
         }
 
         //Getting neighbours
-        static int GetLiveNeighbours(string[,] Board, int X, int Y)
+        private static int GetLiveNeighbours(int X, int Y)
         {
             int result = 0;
             if (X > 0 && X < Size - 1 && Y < Size - 1 && Y > 0)
@@ -131,7 +135,7 @@ namespace Conway_s_Game_of_Life
                     for (int offsetY = -1; offsetY <= 1; offsetY++)
                     {
                         if (offsetX == 0 && offsetY == 0) continue;
-                        if (Board[X + offsetX, Y + offsetY] == "1") 
+                        if (Table[X + offsetX, Y + offsetY] == '█') 
                             result++;
                     }
                 }
@@ -143,7 +147,7 @@ namespace Conway_s_Game_of_Life
                     for (int offsetY = -1; offsetY <= 1; offsetY++)
                     {
                         if (offsetX == 0 && offsetY == 0) continue;
-                        if (Board[X + offsetX, Y + offsetY] == "1") 
+                        if (Table[X + offsetX, Y + offsetY] == '█') 
                             result++;
                     }
                 }
@@ -155,7 +159,7 @@ namespace Conway_s_Game_of_Life
                     for (int offsetY = -1; offsetY <= 1; offsetY++)
                     {
                         if (offsetX == 0 && offsetY == 0) continue;
-                        if (Board[X + offsetX, Y + offsetY] == "1") 
+                        if (Table[X + offsetX, Y + offsetY] == '█') 
                             result++;
                     }
                 }
@@ -167,7 +171,7 @@ namespace Conway_s_Game_of_Life
                     for (int offsetY = -1; offsetY <= 0; offsetY++)
                     {
                         if (offsetX == 0 && offsetY == 0) continue;
-                        if (Board[X + offsetX, Y + offsetY] == "1") 
+                        if (Table[X + offsetX, Y + offsetY] == '█') 
                             result++;
                     }
                 }
@@ -179,7 +183,7 @@ namespace Conway_s_Game_of_Life
                     for (int offsetY = 0; offsetY <= 1; offsetY++)
                     {
                         if (offsetX == 0 && offsetY == 0) continue; 
-                        if (Board[X + offsetX, Y + offsetY] == "1") 
+                        if (Table[X + offsetX, Y + offsetY] == '█') 
                             result++;
                     }
                 }
@@ -187,8 +191,8 @@ namespace Conway_s_Game_of_Life
             return result;
         }
 
-        //Showing the board
-        static void DisplayBoard(this string[,] Board)
+        //Showing the Table
+        private static void DisplayTable(this char[,] Table)
         {
             Console.Clear();
             Console.WriteLine("Generation: {0}\n", Generation);
@@ -197,15 +201,15 @@ namespace Conway_s_Game_of_Life
                 for (int z = 0; z < Size; z++)
                 {
                     if (z == Size-1)
-                        Console.Write($" {Board[i, z]}\n");
+                        Console.WriteLine($"{Table[i, z]}");
                     else
-                        Console.Write($" {Board[i, z]} ");
+                        Console.Write($"{Table[i, z]} ");
                 }
             }
             Generation++;
         }
 
         //Making sure the array isn't empty (full of 0's)
-        static bool IsEmpty(this string[,] array) => array.Cast<string>().All(s => s != "1");
+        private static bool IsEmpty(this char[,] array) => array.Cast<char>().All(s => s != '█');
     }
 }
