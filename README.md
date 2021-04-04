@@ -34,5 +34,5 @@ So the big changes are:
 # Contributions
 If you wish to make a contribution, I am not currently looking for them, but you can make a pull request, and I'll check it out
 
-##Licence
+## Licence
 MIT liscence
