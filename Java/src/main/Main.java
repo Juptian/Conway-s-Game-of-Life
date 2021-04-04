@@ -5,8 +5,8 @@ import java.lang.*;
 
 public class Main {
     
-    public static final int Size = 20;
-    public static final String[][] Grid = new String[Size][Size];
+    public static final int size = 20;
+    public static final String[][] grid = new String[size][size];
     
     public static void main(String[] args) {
         /**
@@ -17,30 +17,30 @@ public class Main {
         Scanner input = new Scanner(System.in);
         String Choice;
         do {
-            main.Board.InitBoard(Size * 10);
-            GameLoop();
+            main.Board.initBoard(size * 10);
+            gameLoop();
             System.out.println("Would you like to go again? ( y / n)");
             Choice = input.nextLine();
         } while (Choice.equals("y") || Choice.equals("yes"));
     }
     
     
-    public static void GameLoop() {
+    public static void gameLoop() {
         do {
-            for(int x = 0; x < Grid.length; x++) {
-                for(int y = 0; y < Grid.length; y++) {
-                    main.Cells.Reproduction(Grid, x, y);
-                    main.Cells.OverPopulation(Grid, x, y);
-                    main.Cells.UnderPopulation(Grid, x, y);
+            for(int x = 0; x < grid.length; x++) {
+                for(int y = 0; y < grid.length; y++) {
+                    Cells.reproduction(grid, x, y);
+                    Cells.overPopulation(grid, x, y);
+                    Cells.underPopulation(grid, x, y);
                 }
             }
-            main.Board.DisplayBoard();
+            Board.displayBoard();
             try {
                 Thread.sleep(1000);
             } catch(InterruptedException e) {
             
             }
-        } while(! main.Board.IsEmpty());
+        } while(! Board.isEmpty());
     }
     
 }

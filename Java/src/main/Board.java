@@ -4,23 +4,23 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class Board {
-    public static void InitBoard(int AmountOfCells) {
-        for( int i = 0; i < Main.Grid.length; i++) {
-            Arrays.fill(Main.Grid[i], "  ");
+    public static void initBoard(int AmountOfCells) {
+        for( int i = 0; i < Main.grid.length; i++) {
+            Arrays.fill(Main.grid[i], "  ");
         }
     
         Random rand = new Random();
         for(int i = 0; i < AmountOfCells; i++) {
-            int x = rand.nextInt(Main.Size);
-            int y = rand.nextInt(Main.Size);
-            Main.Grid[x][y] = " █";
+            int x = rand.nextInt(Main.size);
+            int y = rand.nextInt(Main.size);
+            Main.grid[x][y] = " █";
         }
     }
     
-    public static boolean IsEmpty() {
-        for( int i = 0; i < Main.Grid.length; i++) {
-            for( int z = 0; z < Main.Grid[1].length; z++) {
-                if( Main.Grid[i][z] == " █") {
+    public static boolean isEmpty() {
+        for( int i = 0; i < main.Main.grid.length; i++) {
+            for( int z = 0; z < main.Main.grid.length; z++) {
+                if( main.Main.grid[i][z] == " █") {
                     return false;
                 }
             }
@@ -28,14 +28,14 @@ public class Board {
         return true;
     }
     
-    public static void DisplayBoard() {
+    public static void displayBoard() {
         System.out.flush();
-        for(int i = 0; i < Main.Grid.length; i++) {
-            for(int z = 0; z < Main.Grid.length; z++) {
-                if(z == Main.Grid.length - 1) {
-                    System.out.println(Main.Grid[i][z]);
+        for(int i = 0; i < Main.grid.length; i++) {
+            for(int z = 0; z < Main.grid.length; z++) {
+                if(z == Main.grid.length - 1) {
+                    System.out.println(Main.grid[i][z]);
                 } else {
-                    System.out.print(Main.Grid[i][z]);
+                    System.out.print(Main.grid[i][z]);
                 }
             }
         }
